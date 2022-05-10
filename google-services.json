@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "872941430266",
+    "project_id": "safeandsound-df753",
+    "storage_bucket": "safeandsound-df753.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:872941430266:android:c86d5a2d18135f56147043",
+        "android_client_info": {
+          "package_name": "com.idantalmortv.ProjectSafeAndSound"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "872941430266-lqqd11d194dsfgfavv6cneag9e8jvch6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrk0o93-6XJjyosatIfQGiwcGH7JUqxv8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "872941430266-lqqd11d194dsfgfavv6cneag9e8jvch6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

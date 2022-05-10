@@ -5,22 +5,32 @@ import SendMyVerify from "../components/Home/SendMyVerify";
 import { useState } from "react";
 import VerifyScreen from "../components/ModelVerifyScreen/VerifyScreen";
 import { GlobalStyles } from "../constans/style";
+import auth from '@react-native-firebase/auth'
 
 function SignUP() {
   const [numberPhone, setNumberPhone] = useState("");
   const [selectedArea, setSelectedArea] = useState("+972");
   const [modalIsVisible, setModalIsVisible] = useState(false);
+  const [confirm, setConfirm] = useState(null);
 
   function updateNumber(enteredNumber) {
     setNumberPhone(enteredNumber);
   }
 
-  function StartVerify() {
+  async function StartVerify() {
     setModalIsVisible(true);
+    await signInWithPhoneNumber()
   }
   function onCancelHandler() {
     setModalIsVisible(false);
   }
+
+  async function signInWithPhoneNumber() {
+    const confirmation = await auth().signInWithPhoneNumber(selectedArea + numberPhone);
+    setConfirm(confirmation);
+  }
+  
+
   return (
     <View style={styles.formContainer}>
       <View>
@@ -62,17 +72,20 @@ function SignUP() {
             </View>
           </View>
         </View>
-        <SendMyVerify onPress={StartVerify} />
+        <SendMyVerify onPress={async () => await StartVerify()} />
         <VerifyScreen
           visible={modalIsVisible}
           onBack={onCancelHandler}
           selectedArea={selectedArea}
           phoneNumber={numberPhone}
+          confirm={confirm}
         />
       </View>
     </View>
   );
 }
+
+
 
 export default SignUP;
 

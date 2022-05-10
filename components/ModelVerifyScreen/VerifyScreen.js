@@ -59,6 +59,22 @@ function VerifyScreen(props) {
 
   const number = `${props.selectedArea}` + `${props.phoneNumber}`;
 
+  async function confirmCode() {
+      await props.confirm.confirm(setCode());
+  }
+
+  async function pressHandler(){
+    console.log("here")
+    try {
+      await confirmCode()
+      console.log(props.code)
+      console.log(props.phoneNumber)
+      navigation.navigate("Home");
+    } catch (error) {
+      console.log('conformation failed')
+    }
+}
+
   return (
     
     <Modal visible={props.visible} animationType="slide">
@@ -133,14 +149,53 @@ function VerifyScreen(props) {
             <Text style={styles.notMyPhone} onPress={props.onBack}>
               {text}
             </Text>
-            <VerifyButton
+            <Button title="התחבר" onPress={async () => await pressHandler()}/>
+            {/* <VerifyButton
               code={setCode()}
               phoneNumber={number}
-            />
+            /> */}
           </View>
         </View>
       </View>
     </Modal>
+  );
+}
+
+
+function PhoneSignIn() {
+  // If null, no SMS has been sent
+  const [confirm, setConfirm] = useState(null);
+
+  const [code, setCode] = useState('');
+
+  // Handle the button press
+  async function signInWithPhoneNumber(phoneNumber) {
+    const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+    setConfirm(confirmation);
+  }
+
+  async function confirmCode() {
+    try {
+      await confirm.confirm(code);
+    } catch (error) {
+      console.log('Invalid code.');
+    }
+  }
+
+  if (!confirm) {
+    return (
+      <Button
+        title="Phone Number Sign In"
+        onPress={() => signInWithPhoneNumber('+1 650-555-3434')}
+      />
+    );
+  }
+
+  return (
+    <>
+      <TextInput value={code} onChangeText={text => setCode(text)} />
+      <Button title="Confirm Code" onPress={() => confirmCode()} />
+    </>
   );
 }
 
