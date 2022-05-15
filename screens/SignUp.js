@@ -5,7 +5,8 @@ import SendMyVerify from "../components/Home/SendMyVerify";
 import { useState } from "react";
 import VerifyScreen from "../components/ModelVerifyScreen/VerifyScreen";
 import { GlobalStyles } from "../constans/style";
-import auth from '@react-native-firebase/auth'
+import auth from "@react-native-firebase/auth";
+import CustomPicker from "../components/Home/CustomPicker";
 
 function SignUP() {
   const [numberPhone, setNumberPhone] = useState("");
@@ -18,18 +19,25 @@ function SignUP() {
   }
 
   async function StartVerify() {
+    console.log(selectedArea)
     setModalIsVisible(true);
-    await signInWithPhoneNumber()
+    await signInWithPhoneNumber();
   }
   function onCancelHandler() {
     setModalIsVisible(false);
   }
 
+  function updateArea(enteredArea) {
+    setSelectedArea(enteredArea);
+  }
+
+
   async function signInWithPhoneNumber() {
-    const confirmation = await auth().signInWithPhoneNumber(selectedArea + numberPhone);
+    const confirmation = await auth().signInWithPhoneNumber(
+      selectedArea + numberPhone
+    );
     setConfirm(confirmation);
   }
-  
 
   return (
     <View style={styles.formContainer}>
@@ -46,17 +54,9 @@ function SignUP() {
           <View>
             <View style={styles.inputContainerArea}>
               <Text style={styles.labelArea}>קידומת</Text>
-              <Picker
-                selectedValue={selectedArea}
-                style={styles.pickerArea}
-                onValueChange={(itemValue, itemIndex) =>
-                  setSelectedArea(itemValue)
-                }
-              >
-                <Picker.Item label="+972" value="+972" />
-                <Picker.Item label="+970" value="+970" />
-                <Picker.Item label="+974" value="+974" />
-              </Picker>
+              <View style={styles.pickerArea}>
+                <CustomPicker updateArea={updateArea} />
+              </View>
             </View>
           </View>
           <View>
@@ -84,8 +84,6 @@ function SignUP() {
     </View>
   );
 }
-
-
 
 export default SignUP;
 
@@ -121,8 +119,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   pickerArea: {
-    height: 50,
-    width: 100,
+    marginVertical: -60
   },
   inputContainerNum: {
     marginHorizontal: 4,
